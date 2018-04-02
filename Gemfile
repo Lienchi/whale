@@ -24,7 +24,8 @@ gem "font-awesome-rails"
 gem 'bootstrap-modal-rails'
 
 group :production do
-  gem 'pg', '~> 0.11'
+  #gem 'pg', '~> 0.11'
+  gem "mysql2"
 end
 
 group :development, :test do
