@@ -25,7 +25,7 @@ gem 'bootstrap-modal-rails'
 
 group :production do
   #gem 'pg', '~> 0.11'
-  gem "mysql2"
+  gem 'mysql2', '~> 0.3.18'
 end
 
 group :development, :test do
