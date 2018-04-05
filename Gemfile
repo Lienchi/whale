@@ -23,6 +23,7 @@ gem 'roo', '~> 2.7.0'
 gem "font-awesome-rails"
 gem 'bootstrap-modal-rails'
 
+
 group :production do
   #gem 'pg', '~> 0.11'
   gem 'mysql2', '~> 0.3.18'
@@ -36,9 +37,14 @@ group :development, :test do
   gem 'capybara', '~> 2.13'
   gem 'selenium-webdriver'
   gem 'sqlite3'
+  gem 'rspec-rails'
+  gem 'factory_bot_rails'
+  gem 'shoulda-matchers', '~> 3.1'
+   gem 'rails-controller-testing'
 end
 
 group :development do
+#  gem 'mysql2'
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'spring'
