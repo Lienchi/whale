@@ -19,6 +19,8 @@ Rails.application.routes.draw do
         get :birthday_this_month
         get :birthday_next_month
         post :search_outcome
+        get :file_new
+        post :import
       end
       
       member do
@@ -36,8 +38,9 @@ Rails.application.routes.draw do
       collection do
         get :manage
         get :removed_list
+        get :import_xlsx_new
         post :barcode_to_cart
-        post :import
+        post :import_xlsx
         post :update_all
       end
     end

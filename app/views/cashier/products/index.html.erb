@@ -1,7 +1,9 @@
 <div class="container">
  
-  <%= render :partial => "shared/tabs2", :locals => { :selected_item => '所有商品' } %>
+  <%= render :partial => "shared/tabs_product_management", :locals => { :selected_item => '所有商品' } %>
 
+  <%= link_to "新增商品", new_cashier_product_path, class: "btn btn-primary center-block" %>
+  
   <table class="table function-table" style="display: block;overflow-x: auto;white-space: nowrap;">
     <tbody >
       <tr>
@@ -12,9 +14,9 @@
         <th class="alnright">價錢</th>
         <th>國際條碼</th>
         <th>適用對象</th>
-        <th>中文主成份</th>
-        <th>中文全成份</th>
-        <th>英文全成份</th>
+        <th>中文主成分</th>
+        <th>中文全成分</th>
+        <th>英文全成分</th>
         <th>使用方法</th>
         <th>功能</th>
       </tr>
