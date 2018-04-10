@@ -1,7 +1,9 @@
 <div class="container">
-   
-  <br>
-  <h4>會員資料修改</h4>
+  <%= render :partial => "shared/tabs_general_function", :locals => { :selected_item => '無' } %>
+  <%= render :partial => "shared/tab_member", :locals => { :selected_item => '詳細資料' } %>
+
+<div class="col-md-8 col-md-offset-2">
+  <h4 class="title table-title"><span class="title-main">會員資料修改</span></h4>
   <%= form_for [:cashier, @member] do |f| %>
     <div class="form-group">
       
@@ -37,17 +39,25 @@
       <%= f.label :email, "電子信箱" %>
       <%= f.email_field :email , class: "form-control"%>
       <br>
+      
+      <%= f.label :address, "地址" %>
+      <%= f.text_field :address , class: "form-control"%>
+      <br>
 
       <%= f.label :hair_type_id, "髮質" %>
-      <%= f.collection_select :hair_type_id, HairType.all, :id, :value, {prompt: true}, {class: "form-control"} %>
+      <%= f.collection_select :hair_type_id, HairType.all, :id, :value, {prompt: false}, {class: "form-control"} %>
       <br>
 
       <%= f.label :skin_type_id, "膚質" %>
-      <%= f.collection_select :skin_type_id, SkinType.all, :id, :value, {prompt: true}, {class: "form-control"} %>
+      <%= f.collection_select :skin_type_id, SkinType.all, :id, :value, {prompt: false}, {class: "form-control"} %>
+      <br>
+
+      <%= f.label :info_way_id, "如何得知茶籽堂？" %>
+      <%= f.collection_select :info_way_id, InfoWay.all, :id, :news_channel, {prompt: false}, {class: "form-control"} %>
       <br>
       
       <%= f.label :member_type_id, "會員群組(內部人員註記用)" %>
-      <%= f.collection_select :member_type_id, MemberType.all, :id, :value, {prompt: true}, {class: "form-control"} %>
+      <%= f.collection_select :member_type_id, MemberType.all, :id, :value, {prompt: false}, {class: "form-control"} %>
       <br>
 
       <%= f.label :remark, "備註(內部人員註記用)" %>
@@ -58,7 +68,8 @@
       <%= f.file_field :avatar %>
       <br>
       
-      <%= f.submit "送出", class: "btn-submit" %>
+      <%= f.submit "送出", class: "btn-submit", style:"width:100%" %>
     </div>
   <% end %>           
+</div>
 </div>

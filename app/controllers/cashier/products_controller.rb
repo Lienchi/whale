@@ -53,7 +53,18 @@ class Cashier::ProductsController < Cashier::BaseController
   end
   
   def new
+    @product = Product.new
+  end
+  
+  def create
+    @product = Product.new(product_params)
     
+    if @product.save
+      flash[:notice] = "商品資料已成功更新"
+      redirect_to cashier_products_path
+    else
+      render :index
+    end
   end
   
   def removed_list
@@ -83,11 +94,7 @@ class Cashier::ProductsController < Cashier::BaseController
   def show
     @product = Product.find(params[:id])
   end
-  
-  def edit
-    @product = Product.find(params[:id])
-  end
-  
+    
   def update_all
     @products = Product.all
     datas = params[:products]
@@ -102,12 +109,16 @@ class Cashier::ProductsController < Cashier::BaseController
     flash[:notice] = "商品數量批次更新成功"
     redirect_to manage_cashier_products_path
   end
+  
+  def edit
+    @product = Product.find(params[:id])
+  end
 
   def update
     @product = Product.find(params[:id])
-    if @product.update(product2_params)
-      flash[:notice] = "商品數量更新成功"
-      redirect_to manage_cashier_products_path
+    if @product.update(product_params)
+      flash[:notice] = "商品資料更新成功"
+      redirect_to cashier_products_path
     else
       flash.now[:alert] = @guest.errors.full_messages.to_sentence
       render :edit
@@ -124,8 +135,25 @@ class Cashier::ProductsController < Cashier::BaseController
   end
   
   private
-  def product2_params
+  def product_quantity_params
     params.require(:product).permit(:quantity)
+  end
+  
+  def product_params
+    params.require(:product).permit(
+      :category,
+      :zh_name,
+      :en_name,
+      :capacity,
+      :price,
+      :upc,
+      :use_for,
+      :directions,
+      :zh_m_ingredients,
+      :zh_ingredients,
+      :en_ingredients,
+      :quantity
+      )
   end
   
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180407153314) do
+ActiveRecord::Schema.define(version: 20180410084550) do
 
   create_table "ages", force: :cascade do |t|
     t.string "age_type"
@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 20180407153314) do
     t.datetime "updated_at", null: false
     t.string "note"
     t.string "system_flag"
+    t.boolean "is_display", default: true
   end
 
   create_table "blogs", force: :cascade do |t|
@@ -28,6 +29,8 @@ ActiveRecord::Schema.define(version: 20180407153314) do
     t.datetime "published_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["published_at"], name: "index_blogs_on_published_at"
+    t.index ["user_id"], name: "index_blogs_on_user_id"
   end
 
   create_table "bulletins", force: :cascade do |t|
@@ -48,6 +51,9 @@ ActiveRecord::Schema.define(version: 20180407153314) do
     t.datetime "updated_at", null: false
     t.integer "discount_off"
     t.string "discount_method_code"
+    t.index ["cart_id"], name: "index_cart_items_on_cart_id"
+    t.index ["discount_method_code"], name: "index_cart_items_on_discount_method_code"
+    t.index ["product_id"], name: "index_cart_items_on_product_id"
   end
 
   create_table "carts", force: :cascade do |t|
@@ -81,21 +87,13 @@ ActiveRecord::Schema.define(version: 20180407153314) do
     t.string "note"
   end
 
-  create_table "discounts", force: :cascade do |t|
-    t.integer "product_id"
-    t.integer "bulletin_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "discount_method_id"
-    t.integer "discount_price"
-  end
-
   create_table "guest_types", force: :cascade do |t|
     t.string "guest_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "note"
     t.string "system_flag"
+    t.boolean "is_display", default: true
   end
 
   create_table "guests", force: :cascade do |t|
@@ -109,6 +107,12 @@ ActiveRecord::Schema.define(version: 20180407153314) do
     t.string "guest_type_id", default: "", null: false
     t.integer "user_id"
     t.string "remark"
+    t.index ["age_id"], name: "index_guests_on_age_id"
+    t.index ["country_id"], name: "index_guests_on_country_id"
+    t.index ["created_at"], name: "index_guests_on_created_at"
+    t.index ["guest_type_id"], name: "index_guests_on_guest_type_id"
+    t.index ["info_way_id"], name: "index_guests_on_info_way_id"
+    t.index ["user_id"], name: "index_guests_on_user_id"
   end
 
   create_table "hair_types", force: :cascade do |t|
@@ -117,6 +121,7 @@ ActiveRecord::Schema.define(version: 20180407153314) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "note"
+    t.boolean "is_display", default: true
   end
 
   create_table "info_ways", force: :cascade do |t|
@@ -125,6 +130,7 @@ ActiveRecord::Schema.define(version: 20180407153314) do
     t.datetime "updated_at", null: false
     t.string "note"
     t.string "system_flag"
+    t.boolean "is_display", default: true
   end
 
   create_table "member_types", force: :cascade do |t|
@@ -133,6 +139,7 @@ ActiveRecord::Schema.define(version: 20180407153314) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "note"
+    t.boolean "is_display", default: true
   end
 
   create_table "members", force: :cascade do |t|
@@ -155,6 +162,11 @@ ActiveRecord::Schema.define(version: 20180407153314) do
     t.integer "hair_type_id"
     t.integer "member_type_id"
     t.integer "info_way_id"
+    t.index ["hair_type_id"], name: "index_members_on_hair_type_id"
+    t.index ["info_way_id"], name: "index_members_on_info_way_id"
+    t.index ["member_type_id"], name: "index_members_on_member_type_id"
+    t.index ["phone"], name: "index_members_on_phone"
+    t.index ["skin_type_id"], name: "index_members_on_skin_type_id"
   end
 
   create_table "order_items", force: :cascade do |t|
@@ -164,6 +176,10 @@ ActiveRecord::Schema.define(version: 20180407153314) do
     t.integer "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "discount_off"
+    t.string "discount_method_code"
+    t.index ["order_id"], name: "index_order_items_on_order_id"
+    t.index ["product_id"], name: "index_order_items_on_product_id"
   end
 
   create_table "orders", force: :cascade do |t|
@@ -181,6 +197,12 @@ ActiveRecord::Schema.define(version: 20180407153314) do
     t.boolean "status"
     t.integer "sn"
     t.integer "guest_id"
+    t.index ["created_at"], name: "index_orders_on_created_at"
+    t.index ["guest_id"], name: "index_orders_on_guest_id"
+    t.index ["member_id"], name: "index_orders_on_member_id"
+    t.index ["sn"], name: "index_orders_on_sn", unique: true
+    t.index ["status"], name: "index_orders_on_status"
+    t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -200,6 +222,7 @@ ActiveRecord::Schema.define(version: 20180407153314) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "category_id"
+    t.index ["upc"], name: "index_products_on_upc"
   end
 
   create_table "settings", force: :cascade do |t|
@@ -209,6 +232,7 @@ ActiveRecord::Schema.define(version: 20180407153314) do
     t.datetime "updated_at", null: false
     t.string "note"
     t.string "label"
+    t.boolean "is_active", default: false
   end
 
   create_table "skin_types", force: :cascade do |t|
@@ -217,6 +241,7 @@ ActiveRecord::Schema.define(version: 20180407153314) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "note"
+    t.boolean "is_display", default: true
   end
 
   create_table "stock_records", force: :cascade do |t|

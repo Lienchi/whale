@@ -1,13 +1,13 @@
 <div class="container">
 
   <%= render :partial => "shared/tabs_general_function", :locals => { :selected_item => '訂單資訊' } %>
-  <h1>編輯訂單 <%= @order.sn %></h1>
+  <h4 class="title table-title"><span class="title-main">編輯訂單 <%= @order.sn %></span></h4>
   <input type="hidden" name="" value="<%= @order.id %>" id="order-id">
   <br>
-  <h2>會員訊息</h2>
+  <h4 class="title table-title"><span class="title-main">會員訊息</span></h4>
    <form id="search-form">
     <div class="input-group col-xs-3">
-      <input type="text" id="key" class="form-control" placeholder="請輸入手機號碼或 email "/>
+      <input type="text" id="key" class="form-control" placeholder="請輸入姓名或手機或 email"/>
       <!-- Trigger the modal with a button -->
       <div class="input-group-btn">
       <button id="search-btn" type="submit" class="btn btn-default" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-search"></i></button>
@@ -71,7 +71,7 @@
   <br>
   
   
-  <h2>購買內容</h2>
+  <h4 class="title table-title"><span class="title-main">購買內容</span></h4>
   <label>商品條碼:</label>
   <input type="text" name="" id="bar-code" onkeypress="return searchProduct(event)">
   <br>
@@ -118,7 +118,7 @@
           <td class="d-price alnright"><%= item.calculate %></td>  
           <td>
             <%= form_for [:cashier, item] do |f| %>
-            <%= f.collection_select :discount_method_code, DiscountMethod.all, :code, :content, {prompt: true}, {class: "discount-list form-control"} %>
+            <%= f.collection_select :discount_method_code, DiscountMethod.all, :code, :content, {prompt: false}, {class: "discount-list form-control"} %>
             <% end%>
           </td>        
           <td>
@@ -151,73 +151,84 @@
           <br>
           <div class="col-horizontal clearfix">
             <div class="col-item">
-          <%= f.label :status, "訂單狀態：" %>
+              <%= f.label :status, "訂單狀態：" %>
 
-          <label class="my_radio">
-          <%= f.radio_button :status, true %>
-          現貨
-          </label>
-          <label class="my_radio">
-          <%= f.radio_button :status, false %>
-          預購
-          </label>
-          <br>
+              <label class="my_radio">
+              <%= f.radio_button :status, true %>
+              現貨
+              </label>
+              <label class="my_radio">
+              <%= f.radio_button :status, false %>
+              預購
+              </label>
+              <br>
 
-          <%= f.label :address, "取貨方式：" %>
-          <% if @order.address == "自取"%>
-            <label class="my_radio">
-            <%= f.radio_button :address, "自取", class:"local-radio" %>
-            自取
-            </label>
-            <label class="my_radio">
-            <%= f.radio_button :address, " ", class:"ship-radio" %>
-           宅配
-            </label>
-            <br>
-          <% else%>
-            <label class="my_radio">
-            <%= f.radio_button :address, "自取", class:"local-radio" %>
-            自取
-            </label>
-            <label class="my_radio">
-            <%= f.radio_button :address, " ", :checked => true, class:"ship-radio" %>
-            宅配
-          </label>
-          <br>
-          <% end%>
-           
-          <%= f.label :payment_method, "付款方式：" %>
-          <label class="my_radio">
-          <%= f.radio_button :payment_method, "付現" %>
-          付現
-          </label>
-          <label class="my_radio">
-          <%= f.radio_button :payment_method, "刷卡" %>
-          刷卡
-          </label>
+              <%= f.label :address, "取貨方式：" %>
+              <% if @order.address == "自取"%>
+                <label class="my_radio">
+                <%= f.radio_button :address, "自取", class:"local-radio" %>
+                自取
+                </label>
+                <label class="my_radio">
+                <%= f.radio_button :address, " ", class:"ship-radio" %>
+               宅配
+                </label>
+                <br>
+              <% else%>
+                <label class="my_radio">
+                <%= f.radio_button :address, "自取", class:"local-radio" %>
+                自取
+                </label>
+                <label class="my_radio">
+                <%= f.radio_button :address, " ", :checked => true, class:"ship-radio" %>
+                宅配
+              </label>
+              <br>
+              <% end%>
+               
+              <%= f.label :payment_method, "付款方式：" %>
+              <label class="my_radio">
+                <%= f.radio_button :payment_method, "付現" %>
+                付現
+              </label>
+              <label class="my_radio">
+                <%= f.radio_button :payment_method, "刷卡" %>
+                刷卡
+              </label>
+              <% if @order.payment_method != "付現" && @order.payment_method != "刷卡"%>
+                <label class="my_radio">
+                  <%= f.radio_button :payment_method ," ", :checked => true,class:"other-radio"%>
+                  其他
+                </label>
+                <br>
+                <%= f.text_field :payment_method, class:"other-payment form-control"  %><br>
+              <% else%>
+                <label class="my_radio">
+                  <%= f.radio_button :payment_method ," ",class:"other-radio"%>
+                  其他
+                </label>
+                <br>
+                <%= f.text_field :payment_method, class:"other-payment form-control", :disabled => "disabled"  %><br>
+              <% end%> 
+              
+            </div>
+
+            <div class="col-item">
+              <%= f.label :name, "姓名：" %>
+              <%= f.text_field :name %><br>
+              
+              <%= f.label :phone, "電話：" %>
+              <%= f.text_field :phone %><br>
+              
+
+              <%= f.label :address, "地址：" %>
+              <% if @order.address == "自取"%>
+                <%= f.text_field :address ,class:"input-address form-control", :disabled => "disabled" %><br>
+              <% else%>
+                <%= f.text_field :address ,class:"input-address form-control" %><br>
+              <% end%>
+            </div>
           </div>
-
-          <div class="col-item">
-          <%= f.label :name, "姓名：" %>
-          <%= f.text_field :name %><br>
-          
-          <%= f.label :phone, "電話：" %>
-          <%= f.text_field :phone %><br>
-          
-
-          <%= f.label :address, "地址：" %>
-          <% if @order.address == "自取"%>
-            <%= f.text_field :address ,class:"input-address form-control", :disabled => "disabled" %><br>
-          <% else%>
-            <%= f.text_field :address ,class:"input-address form-control" %><br>
-          <% end%>
-
-        </div>
-      </div>
-          
-
-          
-          
           <%= f.label :remark, "備註：" %>
           <%= f.text_area :remark, class: "form-control" %>
         </div>
@@ -230,7 +241,7 @@
             <label>優惠卷折扣</label>
             <input class="form-control alnright" type="text" value="<%= @coupon_discount %>" id="coupon_discount" disabled="disabled">
             <%= f.label :user_id, "結帳人員" %>
-            <%= f.collection_select  :user_id, User.all, :id, :name, {prompt: true}, {class: "form-control"} %>
+            <%= f.collection_select  :user_id, User.all, :id, :name, {prompt: false}, {class: "form-control"} %>
           </div>
           <div class="col-md-6">
             <label>原始總金額</label>
@@ -250,9 +261,9 @@
       <% end %>
     </div>
   </div>
-    
   <br>
-  <h2>商品列表</h2>
+  <br>
+  <h4 class="title table-title"><span class="title-main">商品列表</span></h4>
   <table class="table product-table" data-toggle="table">
     <thead>
       <tr>
@@ -377,6 +388,19 @@
         }
       });
     }
+  });
+
+   //設定付款方式解鎖地址輸入框
+  $(".other-radio").on("click", function(event){
+    
+    $(".order-info").find(".other-payment").removeAttr('disabled');
+  });
+  //設定付款方式鎖定地址輸入框
+  $("#order_payment_method_付現").on("click", function(event){
+    $(".order-info").find(".other-payment").attr('disabled','disabled');
+  });
+  $("#order_payment_method_刷卡").on("click", function(event){
+    $(".order-info").find(".other-payment").attr('disabled','disabled');
   });
 
   //設定取貨方式解鎖地址輸入框

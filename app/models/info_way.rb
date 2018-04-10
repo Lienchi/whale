@@ -8,8 +8,10 @@
 #  updated_at   :datetime         not null
 #  note         :string
 #  system_flag  :string
+#  is_display   :boolean          default(TRUE)
 #
 
 class InfoWay < ApplicationRecord
   has_many :guests
+  scope :display, -> { where(is_display: true).order(system_flag: :asc) }
 end

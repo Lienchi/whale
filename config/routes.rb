@@ -29,7 +29,7 @@ Rails.application.routes.draw do
       end
       
     end
-    resources :products, only: [:new, :index, :edit, :update, :show] do
+    resources :products, only: [:new, :create, :index, :edit, :update, :show] do
       member do
         post :add_to_cart
         post :remove
@@ -90,7 +90,6 @@ Rails.application.routes.draw do
     end
 
     resources :bulletins 
-    resources :discounts
     resources :hair_types, only: [:index, :new, :edit, :destroy, :update, :create]
     resources :skin_types, except: [:show]
     resources :member_types, except: [:show]

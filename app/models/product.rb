@@ -11,9 +11,9 @@
 #  upc              :string
 #  use_for          :string
 #  directions       :text
-#  zh_m_ingredients :string
-#  zh_ingredients   :string
-#  en_ingredients   :string
+#  zh_m_ingredients :text
+#  zh_ingredients   :text
+#  en_ingredients   :text
 #  quantity         :integer          default(0)
 #  status           :string
 #  created_at       :datetime         not null
@@ -58,4 +58,17 @@ class Product < ApplicationRecord
       product.save!
     end
   end
+
+  def minus_by_order(order,num)
+    self.quantity -= num
+
+    stock_record = self.stock_records.find_by(order_id: order.id)
+    if stock_record == nil
+      stock_record = self.stock_records.build(quantity: -num, order_id: order.id)
+    else
+      stock_record.quantity -= num
+    end
+    stock_record.save!
+  end
+
 end

@@ -7,26 +7,21 @@
 #  birthday       :date             not null
 #  gender         :string           default(""), not null
 #  phone          :string           default(""), not null
-#  skin           :string
-#  hair           :string
 #  avatar         :string
 #  remark         :string
-#  member_code    :string
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  email          :string           default(""), not null
 #  fax            :string
 #  password       :string
-#  group          :string
 #  zip            :string
 #  county         :string
 #  address        :string
 #  bonus          :integer          default(0)
 #  skin_type_id   :integer
-#  hair_id        :integer
-#  hair_code      :string
 #  hair_type_id   :integer
 #  member_type_id :integer
+#  info_way_id    :integer
 #
 
 class Member < ApplicationRecord
@@ -92,4 +87,18 @@ class Member < ApplicationRecord
     end
 
   end
+
+  def find_age_type
+    age = Date.current.year - birthday.year
+    if age <= 25
+      Age.find_by(age_type: "18 ~ 25歲").id
+    elsif age <=35
+      Age.find_by(age_type: "25 ~ 35歲").id
+    elsif age <=45
+      Age.find_by(age_type: "35 ~ 45歲").id
+    else
+      Age.find_by(age_type: "45 歲以上").id
+    end
+  end
+  scope :display, -> { where(is_display: true).order(system_flag: :asc) }
 end
