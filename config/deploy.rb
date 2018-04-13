@@ -26,7 +26,7 @@ set :deploy_to, "/home/deploy/whale"
 # set :pty, true
 
 # Default value for :linked_files is []
-append :linked_files, "config/database.yml", "config/secrets.yml"
+append :linked_files, "config/database.yml", "config/secrets.yml", "config/email.yml"
 
 # Default value for linked_dirs is []
 
